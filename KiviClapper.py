@@ -16,7 +16,7 @@ bl_info = {
     "author": "Kip",
     "version": (1, 0, 0),
     "blender": (2, 80, 0),
-    "location": "View3D",
+    "location": "View3D > Side Panel > KIVI",
     "warning": "",
     "support": "COMMUNITY",
     "doc_url": "",
