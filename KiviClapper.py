@@ -223,6 +223,7 @@ def register():
 
 
 def unregister():
+    kill()
     for cls in classes:
         bpy.utils.unregister_class(cls)
 
