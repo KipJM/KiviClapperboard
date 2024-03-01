@@ -2,7 +2,6 @@ import atexit
 import datetime
 import threading
 
-
 import time
 
 import bpy
@@ -30,9 +29,13 @@ flash_now = False
 
 
 def threadLoop():
+    print("Thread start!")
+
+    info_text = "KIVI Clapperboard"
+
     def updateScreen(bg, textColor):
         screen.fill(bg)
-        text_surface = font.render("KIVI Clapperboard", True, textColor)
+        text_surface = font.render(info_text, True, textColor)
         screen.blit(text_surface, (10, 10))
         updateTime()
         pygame.display.flip()
@@ -82,13 +85,24 @@ def threadLoop():
     blip_font = pygame.font.SysFont("Segoe UI Emoji", 40)
 
     global flash_now
+    want_to_quit = -1
     while True:
         if kill_thread:
+            pygame.quit()
             return
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                kill()
-        keys = pygame.key.get_pressed()
+                # kill()
+                want_to_quit = 40
+
+        if want_to_quit > 0:
+            info_text = "Use blender N panel to close the clapper"
+            want_to_quit -= 1
+        if want_to_quit == 0:
+            info_text = "KIVI Clapperboard"
+            want_to_quit -= 1
+
         if flash_now:
             flash()
             flash_now = False
@@ -106,6 +120,7 @@ def kill():
 def startThread():
     global thread, kill_thread
     if thread is not None:
+        print("HI!!")
         thread.join()
     kill_thread = False
     thread = threading.Thread(target=threadLoop)
